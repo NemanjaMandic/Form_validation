@@ -28,6 +28,7 @@
   <fieldset id="login" title="Login Info">
     <legend>Login Info</legend>
     <span id="mynamehint" class="hint"></span>
+    <span id="formerror" class="error"></span>
     <ol>
       <li>
         <label for="myname">Name *</label>
@@ -52,7 +53,8 @@
       </li>
       <li>
         <label for="mytelephone">Telephone</label>
-        <input type="tel" name="mytelephone" id="mytelephone" />
+        <input type="tel" name="mytelephone" id="mytelephone" pattern="\d{3}[\-]\d{3}[\-]\d{4}
+        " placeholder="xxx-xxx-xxxx" />
       </li>
       <li class="singleline">
         <input type="checkbox" id="subscribeitem" name="subscribe" CHECKED value="yes" />
@@ -62,9 +64,9 @@
         <label for="reference">How did you hear about us?</label>
         <select name="reference" id="reference">
           <option>Choose...</option>
-          <option value="friend">A friend</option>
-          <option value="facebook">Facebook</option>
-          <option value="twitter">Twitter</option>
+          <option value="http://google.com">A friend</option>
+          <option value="http://facebook.com">Facebook</option>
+          <option value="http://twitter.com">Twitter</option>
         </select>
       </li>
     </ol>
@@ -102,6 +104,12 @@
  document.theform.myname.onblur=function(){
    document.getElementById('mynamehint').innerHTML = "";
  }
+ document.theform.reference.onchange = function(){
+  var id = document.theform.reference.selectedIndex;
+  var url = document.theform.reference[id].value;
+  window.location.href = url;
+ }
 </script>
+<script src="myscript.js"></script>
 </body>
 </html>

@@ -6,7 +6,9 @@
   <title>Form Sample</title>
   <link rel="stylesheet" href="normalize.css" />
   <link rel="stylesheet" href="mystyle.css" />
-
+  <script src="modernizr_forms.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
 <!--[if lt IE 8]>
   <style>
     legend {
@@ -32,7 +34,7 @@
     <ol>
       <li>
         <label for="myname">Name *</label>
-        <input type="text" name="myname" id="myname" title="Please enter your name" autofocus placeholder="Last, First" required />
+        <input type="text" name="myname" id="myname" required title="Please enter your name" pattern="[A-Za-z]+, [A-Za-Z ]+" autofocus placeholder="Last, First"  />
       </li>
       <li>
         <label for="myemail">Email *</label>
@@ -42,6 +44,10 @@
         <label for="mypassword">Password</label>
         <input type="password" name="mypassword" id="mypassword" />
       </li>
+       <li>
+        <label for="mypasswordconf">Repeat Password</label>
+        <input type="password" name="mypasswordconf" id="mypasswordconf" />
+      </li>
     </ol>
   </fieldset>
   <fieldset id="other" class="hidden" title="Other Info">
@@ -49,7 +55,7 @@
     <ol>
       <li>
         <label for="myurl">Website *</label>
-        <input type="url" name="myurl" id="myurl" required />
+        <input type="url" name="myurl" id="myurl" />
       </li>
       <li>
         <label for="mytelephone">Telephone</label>
@@ -97,19 +103,22 @@
 </form>
 
 <script>
- document.theform.myname.onfocus=function(){
-   document.getElementById('mynamehint').innerHTML = "(Unesite prvo prezime, pa onda ime)";
- }
+$(document).ready(function(){
+  $("#myform").validate({
+    "rules" : {
+      "mypassword": {
+        "minlength" : 6,
+        "required" : true
+      },
+       "mypasswordconf": {
+        "equalTo" : "#mypassword"
+      }
+    }
+  });
+});
 
- document.theform.myname.onblur=function(){
-   document.getElementById('mynamehint').innerHTML = "";
- }
- document.theform.reference.onchange = function(){
-  var id = document.theform.reference.selectedIndex;
-  var url = document.theform.reference[id].value;
-  window.location.href = url;
- }
 </script>
-<script src="myscript.js"></script>
+
+
 </body>
 </html>

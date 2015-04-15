@@ -26,7 +26,7 @@
 
 </head>
 <body>
-<form id="myform" name="theform" class="group" action="#" method="POST">
+<form id="myform" name="theform" class="group" action="process.php" method="POST">
   <fieldset id="login" title="Login Info">
     <legend>Login Info</legend>
     <span id="mynamehint" class="hint"></span>
@@ -34,11 +34,11 @@
     <ol>
       <li>
         <label for="myname">Name *</label>
-        <input type="text" name="myname" id="myname" required title="Please enter your name" pattern="[A-Za-z]+, [A-Za-Z ]+" autofocus placeholder="Last, First"  />
+        <input type="text" name="myname" id="myname" title="Please enter your name"autofocus placeholder="Last, First"  />
       </li>
       <li>
         <label for="myemail">Email *</label>
-        <input type="email" name="myemail" id="myemail" required autocomplete="off" />
+        <input type="email" name="myemail" id="myemail" autocomplete="off" />
       </li>
       <li>
         <label for="mypassword">Password</label>

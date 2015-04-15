@@ -1,4 +1,30 @@
+<?php
+ if(($_SERVER["REQUEST_METHOD"] == "POST") && (!empty($_POST['action']))):
 
+  if (isset($_POST['myname'])){ $myname = $_POST['myname']; }
+  if(isset($_POST['mypassword'])){ $mypassword = $_POST['mypassword']; }
+  if(isset($_POST['mypasswordconf'])){ $mypasswordconf = $_POST['mypasswordconf']; }
+  if(isset($_POST['mycomments'])){ 
+   $mycomments = filter_var($_POST['mycomments'], FILTER_SANITIZE_STRING); }
+
+ if($myname === '') :
+  $err_myname = '<div class="error"> Sorry, name is required field</div>';
+ endif;
+
+ if(strlen($mypassword) <= 6):
+   $err_mypassword = '<div class="error">Password must be at least 6 characters</div>';
+ endif;
+
+ if($mypassword !== $mypasswordconf):
+   $err_mypasswordconf = '<div class="error">Passwords must match</div>';
+ endif;
+
+ if(!(preg_match('/[A-Za-z]+, [A-Za-z]+/', $myname))):
+   $err_pattern = '<div class="error">Sorry, the name must be in the format: Last, First</div>';
+ endif;
+
+ endif;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +52,7 @@
 
 </head>
 <body>
-<form id="myform" name="theform" class="group" action="process.php" method="POST">
+<form id="myform" name="theform" class="group" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
   <fieldset id="login" title="Login Info">
     <legend>Login Info</legend>
     <span id="mynamehint" class="hint"></span>
@@ -34,19 +60,24 @@
     <ol>
       <li>
         <label for="myname">Name *</label>
-        <input type="text" name="myname" id="myname" title="Please enter your name"autofocus placeholder="Last, First"  />
+        <input type="text" name="myname" id="myname" title="Please enter your name"autofocus placeholder="Last, First" value="<?php if(isset($myname)) { echo $myname; } ?>" />
+        <?php if(isset($err_myname)) { echo $err_myname; } ?>
+        <?php if(isset($err_pattern)) { echo $err_pattern; } ?>
       </li>
       <li>
         <label for="myemail">Email *</label>
         <input type="email" name="myemail" id="myemail" autocomplete="off" />
+       
       </li>
       <li>
         <label for="mypassword">Password</label>
         <input type="password" name="mypassword" id="mypassword" />
+        <?php if(isset($err_mypassword)) { echo $err_mypassword; } ?>
       </li>
        <li>
         <label for="mypasswordconf">Repeat Password</label>
         <input type="password" name="mypasswordconf" id="mypasswordconf" />
+        <?php if(isset($err_mypasswordconf)) { echo $err_mypasswordconf } ?>
       </li>
     </ol>
   </fieldset>
@@ -94,14 +125,14 @@
         </ol>
       </li>
       <li>
-        <label for="mycomments">Comment</label>
+        <label for="mycomments">Comment(html not allowed)</label>
         <textarea name="mycomments" id="mycomments"></textarea>
       </li>
     </ol>
-    <button type="submit">send</button>
+    <button type="submit" name="action" value="submit">send</button>
   </fieldset>
 </form>
-
+<!--
 <script>
 $(document).ready(function(){
   $("#myform").validate({
@@ -119,6 +150,6 @@ $(document).ready(function(){
 
 </script>
 
-
+-->
 </body>
 </html>
